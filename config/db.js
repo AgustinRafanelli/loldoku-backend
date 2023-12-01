@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === "production") {
     },
   });
 } else {
-  db = new Sequelize("loldoku", null, null, {
+  db = new Sequelize("loldoku", "arkanyan", "Rafa1995.", {
     host: "localhost",
     dialect: "postgres",
     logging: false,

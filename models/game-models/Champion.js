@@ -1,5 +1,5 @@
 const S = require("sequelize");
-const sequelize = require("../config/db");
+const sequelize = require("../../config/db");
 
 class Champion extends S.Model {}
 
@@ -7,6 +7,7 @@ Champion.init(
   {
     name: {
       type: S.DataTypes.STRING,
+      unique: true,
       validate: {
         notEmpty: {
           args: true,
@@ -15,7 +16,7 @@ Champion.init(
       },
     },
     square: {
-      type: S.DataTypes.BLOB,
+      type: S.DataTypes.STRING,
     },
     date: {
       type: S.DataTypes.DATE,
@@ -54,7 +55,7 @@ Champion.init(
       },
     },
     bluePrice: {
-      type: S.DataTypes.NUMBER,
+      type: S.DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
@@ -63,7 +64,7 @@ Champion.init(
       },
     },
     rPPrice: {
-      type: S.DataTypes.NUMBER,
+      type: S.DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
@@ -72,7 +73,7 @@ Champion.init(
       },
     },
     skinsAmount: {
-      type: S.DataTypes.NUMBER,
+      type: S.DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,

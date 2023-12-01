@@ -1,5 +1,5 @@
 const S = require("sequelize");
-const sequelize = require("../config/db");
+const sequelize = require("../../config/db");
 
 class Position extends S.Model {}
 
@@ -7,6 +7,7 @@ Position.init(
   {
     name: {
       type: S.DataTypes.STRING,
+      unique: true,
       validate: {
         notEmpty: {
           args: true,
