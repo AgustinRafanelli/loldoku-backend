@@ -36,15 +36,6 @@ Champion.init(
         },
       },
     },
-    range: {
-      type: S.DataTypes.ENUM("Ranged", "Melee"),
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "No range specified",
-        },
-      },
-    },
     adaptiveType: {
       type: S.DataTypes.ENUM("Magic", "Physical"),
       validate: {
