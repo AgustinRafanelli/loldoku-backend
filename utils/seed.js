@@ -1,5 +1,5 @@
 const fs = require("fs");
-const db = require("./config/db");
+const db = require("../config/db");
 const csv = require("csv-parse");
 const {
   Champion,
@@ -9,7 +9,7 @@ const {
   Region,
   Resource,
   Specie,
-} = require("./models/game-models");
+} = require("../app/models");
 const { ValidationError } = require("sequelize");
 
 const championTranslator = (data) => {
@@ -279,7 +279,6 @@ fs.readFile("../data/LolWiki.csv", "utf8", (err, data) => {
                 ...listFilter(championsList[name].faction, factions),
                 { transaction: t }
               );
-
               await champion.setSpecies(
                 listFilter(championsList[name].specie, species),
                 { transaction: t }
