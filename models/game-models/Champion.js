@@ -11,12 +11,9 @@ Champion.init(
       validate: {
         notEmpty: {
           args: true,
-          msg: "No name",
+          msg: "No champion name",
         },
       },
-    },
-    square: {
-      type: S.DataTypes.STRING,
     },
     date: {
       type: S.DataTypes.DATE,

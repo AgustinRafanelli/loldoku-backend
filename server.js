@@ -7,7 +7,6 @@ const cors = require("cors");
 // const passportConfig = require("./config/passport");
 const db = require("./config/db");
 const models = require("./models/game-models");
-const seed = require("./seed.js");
 
 const app = express();
 

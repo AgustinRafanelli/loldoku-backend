@@ -1,9 +1,9 @@
 const S = require("sequelize");
 const sequelize = require("../../config/db");
 
-class Class extends S.Model {}
+class Rol extends S.Model {}
 
-Class.init(
+Rol.init(
   {
     name: {
       type: S.DataTypes.STRING,
@@ -11,12 +11,12 @@ Class.init(
       validate: {
         notEmpty: {
           args: true,
-          msg: "No class",
+          msg: "No rol",
         },
       },
     },
   },
-  { sequelize, modelName: "class" }
+  { sequelize, modelName: "rol" }
 );
 
-module.exports = Class;
+module.exports = Rol;
