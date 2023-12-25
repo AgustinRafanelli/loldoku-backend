@@ -9,6 +9,11 @@ const {
   Region,
   Resource,
   Specie,
+  Range,
+  AdaptiveType,
+  Year,
+  BluePrice,
+  RPPrice,
 } = require("../app/models");
 const { ValidationError } = require("sequelize");
 
@@ -21,6 +26,11 @@ const championTranslator = (data) => {
   let regionsData = [];
   let resourceData = [];
   let speciesData = ["Unknown", "Vastaya", "Golem"];
+  let rangeData = [];
+  let adaptiveTypeData = [];
+  let yearData = [];
+  let bluePriceData = [];
+  let rPPriceData = [];
 
   data.forEach((champion, i) => {
     //Name
@@ -88,9 +98,13 @@ const championTranslator = (data) => {
     } else if (!championsData[name]["faction"]) {
       championsData[name]["faction"] = "No Faction";
     }
+    //Release Year
     if (!!champion.Date) {
-      //Release Data
-      championsData[name]["date"] = Date.parse(champion.Date);
+      const year = champion.Date.slice(0, 4)  
+      championsData[name]["year"] = year;
+      if (!yearData.includes(year)) {
+        yearData.push(year);
+      }
     }
     //Rol
     if (!!champion.Rol) {
@@ -131,10 +145,16 @@ const championTranslator = (data) => {
     //Range
     if (!!champion.Range) {
       championsData[name]["range"] = champion.Range;
+      if (!rangeData.includes(champion.Range)) {
+        rangeData.push(champion.Range);
+      }
     }
     //AdaptiveType
     if (!!champion.AdaptiveType) {
       championsData[name]["adaptiveType"] = champion.AdaptiveType;
+      if (!adaptiveTypeData.includes(champion.AdaptiveType)) {
+        adaptiveTypeData.push(champion.AdaptiveType);
+      }
     }
     //Resource
     if (!!champion.Resource) {
@@ -147,10 +167,17 @@ const championTranslator = (data) => {
     const bluePrice = parseInt(champion.BluePrice);
     if (champion.BluePrice !== "Reference" && !Number.isNaN(bluePrice)) {
       championsData[name]["bluePrice"] = bluePrice;
+      if (!bluePriceData.includes(bluePrice)) {
+        bluePriceData.push(bluePrice);
+      }
     }
     //RP Price
     if (!!champion.RPprice) {
-      championsData[name]["rPPrice"] = parseInt(champion.RPprice);
+      const rPPrice = parseInt(champion.RPprice);
+      championsData[name]["rPPrice"] = rPPrice;
+      if (!rPPriceData.includes(rPPrice)) {
+        rPPriceData.push(rPPrice);
+      }
     }
     //Skin amount
     if (champion.SkinAmount.length > 2) {
@@ -167,6 +194,11 @@ const championTranslator = (data) => {
     regionsData,
     resourceData,
     speciesData,
+    rangeData,
+    adaptiveTypeData,
+    yearData,
+    bluePriceData,
+    rPPriceData,
   ];
 };
 
@@ -190,6 +222,11 @@ fs.readFile("../data/LolWiki.csv", "utf8", (err, data) => {
       regionsList,
       resourceList,
       speciesList,
+      rangeList,
+      adaptiveTypeList,
+      yearList,
+      bluePriceList,
+      rPPriceList,
     ] = championTranslator(data);
 
     //Upload to the database
@@ -232,6 +269,31 @@ fs.readFile("../data/LolWiki.csv", "utf8", (err, data) => {
           return await Specie.create({ name: specie });
         })
       );
+      const ranges = await Promise.all(
+        rangeList.map(async (range) => {
+          return await Range.create({ name: range });
+        })
+      );
+      const adaptiveTypes = await Promise.all(
+        adaptiveTypeList.map(async (adaptiveType) => {
+          return await AdaptiveType.create({ name: adaptiveType });
+        })
+      );
+      const years = await Promise.all(
+        yearList.map(async (year) => {
+          return await Year.create({ name: year });
+        })
+      );
+      const bluePrices = await Promise.all(
+        bluePriceList.map(async (bluePrice) => {
+          return await BluePrice.create({ name: bluePrice });
+        })
+      );
+      const rPPrices = await Promise.all(
+        rPPriceList.map(async (rPPrice) => {
+          return await RPPrice.create({ name: rPPrice });
+        })
+      );
 
       const listFilter = (querys, list) => {
         const search = Array.isArray(querys)
@@ -251,11 +313,6 @@ fs.readFile("../data/LolWiki.csv", "utf8", (err, data) => {
         championsKeys.map(async (name) => {
           return await Champion.create({
             name: name,
-            date: championsList[name].date,
-            range: championsList[name].range,
-            adaptiveType: championsList[name].adaptiveType,
-            bluePrice: championsList[name].bluePrice,
-            rPPrice: championsList[name].rPPrice,
             skinsAmount: championsList[name].skinsAmount,
           }).then(async (champion) => {
             await db.transaction(async (t) => {
@@ -283,6 +340,26 @@ fs.readFile("../data/LolWiki.csv", "utf8", (err, data) => {
                 listFilter(championsList[name].specie, species),
                 { transaction: t }
               );
+              await champion.setRange(
+                ...listFilter(championsList[name].range, ranges),
+                { transaction: t }
+              );
+              await champion.setAdaptiveType(
+                ...listFilter(championsList[name].adaptiveType, adaptiveTypes),
+                { transaction: t }
+              );
+              await champion.setYear(
+                ...listFilter(championsList[name].year, years),
+                { transaction: t }
+              );
+              await champion.setBluePrice(
+                ...listFilter(championsList[name].bluePrice, bluePrices),
+                { transaction: t }
+              );
+              await champion.setRPPrice(
+                ...listFilter(championsList[name].rPPrice, rPPrices),
+                { transaction: t }
+              );
               return champion;
             });
           });
@@ -297,6 +374,11 @@ fs.readFile("../data/LolWiki.csv", "utf8", (err, data) => {
         regions,
         resources,
         species,
+        ranges,
+        adaptiveTypes,
+        years,
+        bluePrices,
+        rPPrices,
         champions,
       ]);
     };

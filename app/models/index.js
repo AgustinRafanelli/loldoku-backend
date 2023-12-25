@@ -5,6 +5,11 @@ const Position = require("./Position");
 const Region = require("./Region");
 const Resource = require("./Resource");
 const Specie = require("./Specie");
+const Year = require("./Year");
+const Range = require("./Range");
+const AdaptiveType = require("./AdaptiveType");
+const BluePrice = require("./BluePrice");
+const RPPrice = require("./RPPrice");
 
 Champion.belongsToMany(Rol, { through: "rolchampion" });
 Rol.belongsToMany(Champion, { through: "rolchampion" });
@@ -27,6 +32,21 @@ Resource.belongsToMany(Champion, { through: "resourcechampion" });
 Champion.belongsToMany(Specie, { through: "speciechampion" });
 Specie.belongsToMany(Champion, { through: "speciechampion" });
 
+Champion.belongsTo(Year);
+Year.belongsToMany(Champion, { through: "yearchampion" });
+
+Champion.belongsTo(Range);
+Range.belongsToMany(Champion, { through: "rangechampion" });
+
+Champion.belongsTo(AdaptiveType);
+AdaptiveType.belongsToMany(Champion, { through: "adaptivetypechampion" });
+
+Champion.belongsTo(BluePrice);
+BluePrice.belongsToMany(Champion, { through: "bluepricechampion" });
+
+Champion.belongsTo(RPPrice);
+RPPrice.belongsToMany(Champion, { through: "rppricechampion" });
+
 module.exports = {
   Champion,
   Rol,
@@ -35,4 +55,9 @@ module.exports = {
   Region,
   Resource,
   Specie,
+  Year,
+  Range,
+  AdaptiveType,
+  BluePrice,
+  RPPrice,
 };

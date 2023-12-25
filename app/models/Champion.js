@@ -15,57 +15,12 @@ Champion.init(
         },
       },
     },
-    date: {
-      type: S.DataTypes.DATE,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "No date",
-        },
-      },
-    },
-    range: {
-      type: S.DataTypes.ENUM("Ranged", "Melee"),
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "No range specified",
-        },
-      },
-    },
-    adaptiveType: {
-      type: S.DataTypes.ENUM("Magic", "Physical"),
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "No range specified",
-        },
-      },
-    },
-    bluePrice: {
-      type: S.DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "No blue price",
-        },
-      },
-    },
-    rPPrice: {
-      type: S.DataTypes.INTEGER,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: "No riot point price",
-        },
-      },
-    },
     skinsAmount: {
       type: S.DataTypes.INTEGER,
       validate: {
         notEmpty: {
           args: true,
-          msg: "No skins amount",
+          msg: "No skin amount",
         },
       },
     },
