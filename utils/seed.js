@@ -187,18 +187,18 @@ const championTranslator = (data) => {
   });
 
   return [
-    rolsData,
+    rolsData.sort(),
     championsData,
-    factionsData,
-    positionsData,
-    regionsData,
-    resourceData,
-    speciesData,
-    rangeData,
-    adaptiveTypeData,
-    yearData,
-    bluePriceData,
-    rPPriceData,
+    factionsData.sort(),
+    positionsData.sort(),
+    regionsData.sort(),
+    resourceData.sort(),
+    speciesData.sort(),
+    rangeData.sort(),
+    adaptiveTypeData.sort(),
+    yearData.sort(),
+    bluePriceData.sort(),
+    rPPriceData.sort(),
   ];
 };
 

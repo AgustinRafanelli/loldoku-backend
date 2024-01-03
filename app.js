@@ -6,7 +6,9 @@ const cors = require("cors");
 // const passport = require("passport");
 // const passportConfig = require("./config/passport");
 const db = require("./config/db");
-const models = require("./app/game-models");
+const models = require("./app");
+const sudokuFactory = require("./services/sudokuFactory");
+sudokuFactory().then((sudoku) => console.log("sudoku", sudoku));
 
 const app = express();
 
